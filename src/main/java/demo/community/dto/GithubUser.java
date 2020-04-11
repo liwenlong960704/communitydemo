@@ -1,6 +1,6 @@
 package demo.community.dto;
 
-public class GitHubUser {
+public class GithubUser {
     private String name;
     private long id;
     private String bio;

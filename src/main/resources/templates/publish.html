@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Community Demo</title>
+    <title>Publish - Community Demo</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
@@ -47,38 +47,45 @@
 <div class="container-fluid main">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
-            <h2><span class="glyphicon glyphicon-list" aria-hidden="true"></span>发现</h2>
+            <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
             <hr>
-<!--            <div class="media">-->
-<!--                <div class="media-left">-->
-<!--                    <a href="#">-->
-<!--                        <img class="media-object img-rounded" src="https://avatars1.githubusercontent.com/u/53557135?v=4">-->
-<!--                    </a>-->
-<!--                </div>-->
-<!--                <div class="media-body">-->
-<!--                    <h4 class="media-heading ">Media heading</h4>-->
-<!--                    ...<br>-->
-<!--                    <span class="text-desc">2 人关注 • 1 个回复 • 45 次浏览 • 1 小时前</span>-->
-<!--                </div>-->
-<!--            </div>-->
-                <div class="media" th:each="question : ${questions}">
-                    <div class="media-left">
-                        <a href="#">
-                            <img class="media-object img-rounded" th:src="${question.user.avatarUrl}">
-                        </a>
-                    </div>
-                    <div class="media-body">
-                        <h4 class="media-heading " th:text="${question.getTitle()}"></h4>
-                        <span th:text="${question.description}"></span><br>
-                        <span class="text-desc"><span th:text="${question.commentCount}"></span> 个回复 •<span th:text="${question.viewCount}"></span> 次浏览 •
-                            <span th:text="${#dates.format(question.gmtCreate,'dd MMMM yyyy')}"></span></span>
+            <form action="/publish" method="post">
+                <div class="form-group">
+                    <label for="title">问题标题（简单扼要）：</label>
+                    <input type="text" class="form-control" id="title" name="title" th:value="${title}" placeholder="问题标题……">
+                </div>
+                <div class="form-group">
+                    <label for="title">问题补充（必填，请参照右边提示）：</label>
+                    <textarea class="form-control" name="description" id="description" th:value="${description}" cols="30" rows="10"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="title">添加标签：</label>
+                    <input type="text" class="form-control" id="tag" name="tag" th:value="${tag}" placeholder="输入标签，以，分隔">
+                </div>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                            <div class="alert alert-danger" role="alert" th:if="${error != null}">
+                                <span th:text="${error}"  style="display: block;text-align: center"></span>
+                            </div>
+                            <div th:if="${error == null}">
+
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                            <button type="submit" class="btn  btn-block btn-success btn-publish">发布</button>
+                        </div>
                     </div>
                 </div>
+            </form>
         </div>
-        <div class="col-lg-3 visible-lg" >
-            <h3>热门话题</h3>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" >
+            <h3>问题发起指南</h3>
+            <p>·问题标题：请使用简单的语言描述发布的问题，不超过25字</p>
+            <p>·问题补充：详细补充您的问题内容，并确保问题描述清晰直观，并提供一些相关资料</p>
+            <p>·选择标签：选择一个或者多个合适的标签，用逗号隔开每个标签，每个标签不超过10字</p>
         </div>
     </div>
-
+</div>
 </body>
 </html>

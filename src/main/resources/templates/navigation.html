@@ -32,11 +32,11 @@
                         <a aria-expanded="false" aria-haspopup="true" class="dropdown-toggle" data-toggle="dropdown"
                            href="#"
                            role="button">
-                            <span th:text="${session.user.getName()}"></span>
                             <span class="caret"></span>
+                            <span th:text="${session.user.getName()}"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">我的问题</a></li>
+                            <li><a href="/profile/questions">我的问题</a></li>
                             <li><a href="#">个人资料</a></li>
                             <li><a href="#">退出登录</a></li>
                         </ul>

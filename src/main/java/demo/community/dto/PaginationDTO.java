@@ -16,23 +16,13 @@ public class PaginationDTO {
     private Integer pageCount;
     private List<Integer> pages;
 
-    public void setPagination(Integer questionCount, Integer page, Integer size) {
+    public void setPagination(Integer pageCount, Integer page) {
 
         pages = new ArrayList<>();
 
-        if(questionCount % size == 0){
-            pageCount = questionCount/size;
-        }else{
-            pageCount = questionCount/size + 1;
-        }
-
-        if(page < 1){
-            page = 1;
-        }
-        if(page > pageCount){
-            page = pageCount;
-        }
         currentPage = page;
+
+        this.pageCount = pageCount;
 
         showPreviousPage = true;
         showFirstPage = true;

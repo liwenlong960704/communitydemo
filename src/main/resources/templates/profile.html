@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="sectionName"></title>
+    <title th:text="${sectionName}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
@@ -17,26 +17,31 @@
             <h2><span class="glyphicon glyphicon-user" aria-hidden="true" th:text="${sectionName}"></span></h2>
             <hr>
 
-            <div class="media" th:each="question : ${pagination.questions}">
+            <div class="media" th:if="${pagination.questions != null}" th:each="question : ${pagination.questions}">
                 <div class="media-left">
                     <a href="#">
                         <img class="media-object img-rounded" th:src="${question.user.avatarUrl}">
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading " th:text="${question.getTitle()}"></h4>
+                    <a th:href="@{'/question/'+${question.id}}"><h4 class="media-heading " th:text="${question.getTitle()}"></h4></a>
                     <span th:text="${question.description}"></span><br>
                     <span class="text-desc"><span th:text="${question.commentCount}"></span> 个回复 •<span
                             th:text="${question.viewCount}"></span> 次浏览 •
                             <span th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm:ss')}"></span></span>
                 </div>
             </div>
+
+            <div th:if="${pagination.questions == null || pagination.questions.size() == 0}" class="alert alert-danger" role="alert">
+                <a href="/" class="alert-link">您未发布过问题，点击这里返回主页</a>
+            </div>
+
             <div class="row">
                 <div class="col-lg-6 visible-lg">
                 </div>
                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                     <nav aria-label="Page navigation" >
-                        <ul class="pagination">
+                        <ul class="pagination" th:if="${pagination.pages != null && pagination.pages.size() != 0}">
                             <li th:class="${pagination.showFirstPage} ? '' : 'disabled' ">
                                 <a th:href="@{'/profile/'+${section}(page=${1})}" aria-label="Previous"  >
                                     <span aria-hidden="true">&lt;&lt;</span>
@@ -47,7 +52,7 @@
                                     <span aria-hidden="true">&lt;</span>
                                 </a>
                             </li>
-                            <li th:each="page : ${pagination.pages}"
+                            <li  th:each="page : ${pagination.pages}"
                                 th:class="${pagination.currentPage == page} ? 'active' : '' ">
                                 <a th:href="@{'/profile/'+${section}(page=${pagination.currentPage})}">
                                     <span th:text="${page}"></span>

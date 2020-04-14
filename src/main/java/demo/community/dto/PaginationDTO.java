@@ -29,7 +29,7 @@ public class PaginationDTO {
         showNextPage = true;
         showEndPage = true;
 
-        if(currentPage.equals(1)){
+        if(currentPage.equals(1) || currentPage.equals(0)){
             showFirstPage = false;
             showPreviousPage = false;
         }
@@ -39,14 +39,16 @@ public class PaginationDTO {
             showEndPage = false;
         }
 
-        pages.add(currentPage);
+        if(currentPage > 0){
+            pages.add(currentPage);
 
-        for(int i = 1; i <= 2; i++){
-            if(currentPage - i > 0){
-                pages.add(0,currentPage-i);
-            }
-            if(currentPage + i <= pageCount){
-                pages.add(currentPage+i);
+            for(int i = 1; i <= 2; i++){
+                if(currentPage - i > 0){
+                    pages.add(0,currentPage-i);
+                }
+                if(currentPage + i <= pageCount){
+                    pages.add(currentPage+i);
+                }
             }
         }
 

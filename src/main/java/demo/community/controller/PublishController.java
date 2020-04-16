@@ -1,5 +1,7 @@
 package demo.community.controller;
 
+import demo.community.exception.CustomizeErrorCode;
+import demo.community.exception.CustomizeException;
 import demo.community.mapper.QuestionMapper;
 import demo.community.mapper.UserMapper;
 import demo.community.model.Question;
@@ -76,6 +78,9 @@ public class PublishController {
     public String edit(@PathVariable(name = "id") Integer id,
                        Model model){
         Question question = questionMapper.getById(id);
+        if(question == null){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         model.addAttribute("id",question.getId());
         model.addAttribute("title",question.getTitle());
         model.addAttribute("description",question.getDescription());

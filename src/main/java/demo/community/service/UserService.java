@@ -1,6 +1,8 @@
 package demo.community.service;
 
 import demo.community.dto.GithubUser;
+import demo.community.exception.CustomizeErrorCode;
+import demo.community.exception.CustomizeException;
 import demo.community.mapper.UserMapper;
 import demo.community.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,7 @@ public class UserService {
             user.setAvatarUrl(githubUser.getAvatar_url());
             user.setBio(githubUser.getBio());
             userMapper.insert(user);
+
         }else{
             user.setToken(token);
             user.setName(githubUser.getName());

@@ -9,7 +9,7 @@ import java.util.List;
 public interface QuestionMapper {
     @Insert("insert into question(title, description, gmt_create, gmt_modified, creator, tag) " +
             "values(#{title}, #{description}, #{gmtCreate}, #{gmtModified}, #{creator}, #{tag})")
-    void createQuestion(Question question);
+    boolean createQuestion(Question question);
 
     @Select("select * from question limit #{offset} , #{size}")
     List<Question> list(@Param(value = "offset") Integer offset, @Param(value = "size") Integer size);
@@ -27,5 +27,5 @@ public interface QuestionMapper {
     Question getById(@Param("id") Integer id);
 
     @Update("update question set title = #{title}, description = #{description}, tag = #{tag}, gmt_modified = #{gmtModified} where id = #{id}")
-    void updateQuestion(Question question);
+    boolean updateQuestion(Question question);
 }

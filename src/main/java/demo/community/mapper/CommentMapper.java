@@ -1,7 +1,10 @@
 package demo.community.mapper;
 
+import demo.community.enums.CommentTypeEnum;
 import demo.community.model.Comment;
 import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 @Mapper
 public interface CommentMapper {
@@ -15,4 +18,6 @@ public interface CommentMapper {
     @Update("update comment set comment_count = comment_count + 1 where id = #{id}")
     void incCommentCount(@Param("id") Long id);
 
+    @Select("select * from comment where parent_id = #{id} and type = #{type}")
+    List<Comment> list(@Param("id") Long id, @Param("type") Integer type);
 }

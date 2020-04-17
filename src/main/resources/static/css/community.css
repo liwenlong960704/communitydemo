@@ -17,6 +17,10 @@ body{
     height: 38px;
 }
 
+.media-heading{
+    margin-top: 10px;
+}
+
 .text-desc{
     font-size: 12px;
     font-weight: normal;
@@ -25,4 +29,23 @@ body{
 
 .profile .section{
     margin-top: 15px;
+}
+
+.comment{
+    margin: 10px 0;
+}
+
+.btn-comment {
+    float: right;
+    margin-bottom: 10px;
+}
+
+.comment-heading{
+    margin-top: 0;
+}
+
+.comment-icon{
+    font-size: 15px;
+    margin-right: 10px;
+    margin-top: 5px;
 }

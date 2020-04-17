@@ -1,10 +1,8 @@
 package demo.community.controller;
 
-import demo.community.dto.CommentDTO;
+import demo.community.dto.CommentCreateDTO;
 import demo.community.dto.ResultDTO;
 import demo.community.exception.CustomizeErrorCode;
-import demo.community.exception.CustomizeException;
-import demo.community.mapper.CommentMapper;
 import demo.community.model.Comment;
 import demo.community.model.User;
 import demo.community.service.CommentService;
@@ -26,7 +24,7 @@ public class CommentController {
 
     @ResponseBody
     @RequestMapping(value = "/comment",method = RequestMethod.POST)
-    public Object post(@RequestBody CommentDTO commentDTO,
+    public Object post(@RequestBody CommentCreateDTO commentCreateDTO,
                        HttpServletRequest request){
 
         User user = (User)request.getSession().getAttribute("user");
@@ -35,9 +33,9 @@ public class CommentController {
         }
 
         Comment comment = new Comment();
-        comment.setParentId(commentDTO.getParentId());
-        comment.setContent(commentDTO.getContent());
-        comment.setType(commentDTO.getType());
+        comment.setParentId(commentCreateDTO.getParentId());
+        comment.setContent(commentCreateDTO.getContent());
+        comment.setType(commentCreateDTO.getType());
         comment.setGmtCreate(System.currentTimeMillis());
         comment.setGmtModified(System.currentTimeMillis());
         comment.setCommentator(user.getId());

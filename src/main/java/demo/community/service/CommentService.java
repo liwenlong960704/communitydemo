@@ -1,14 +1,22 @@
 package demo.community.service;
 
+import demo.community.dto.CommentDTO;
 import demo.community.enums.CommentTypeEnum;
 import demo.community.exception.CustomizeErrorCode;
 import demo.community.exception.CustomizeException;
 import demo.community.mapper.CommentMapper;
 import demo.community.mapper.QuestionMapper;
+import demo.community.mapper.UserMapper;
 import demo.community.model.Comment;
 import demo.community.model.Question;
+import demo.community.model.User;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CommentService {
@@ -20,8 +28,12 @@ public class CommentService {
     private QuestionMapper questionMapper;
 
     @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
     private QuestionService questionService;
 
+    @Transactional
     public void insert(Comment comment) {
         if(comment.getParentId() == null || comment.getParentId() == 0){
             throw new CustomizeException(CustomizeErrorCode.TRAGET_PARAM_NOT_FOUND);
@@ -56,5 +68,23 @@ public class CommentService {
             commentMapper.insert(comment);
             questionService.incCommentCount(question.getId());
         }
+    }
+
+    public List<CommentDTO> listByQuestionId(Long id) {
+        List<Comment> comments = commentMapper.list(id,CommentTypeEnum.QUESTION.getType());
+        if(comments.size() == 0){
+            return new ArrayList<>();
+        }
+        List<CommentDTO> commentDTOS = new ArrayList<>();
+        for(Comment comment : comments){
+            User user = userMapper.findById(comment.getCommentator());
+            if(user != null){
+                CommentDTO commentDTO = new CommentDTO();
+                BeanUtils.copyProperties(comment,commentDTO);
+                commentDTO.setUser(user);
+                commentDTOS.add(commentDTO);
+            }
+        }
+        return commentDTOS;
     }
 }

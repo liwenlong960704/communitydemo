@@ -2,6 +2,7 @@ package demo.community.controller;
 
 import demo.community.dto.CommentDTO;
 import demo.community.dto.QuestionDTO;
+import demo.community.enums.CommentTypeEnum;
 import demo.community.mapper.QuestionMapper;
 import demo.community.service.CommentService;
 import demo.community.service.QuestionService;
@@ -25,7 +26,7 @@ public class QuestionController {
     @GetMapping("/question/{id}")
     public String question(@PathVariable(name = "id") Long id, Model model){
         QuestionDTO questionDTO = questionService.getById(id);
-        List<CommentDTO> comments = commentService.listByQuestionId(id);
+        List<CommentDTO> comments = commentService.list(id, CommentTypeEnum.QUESTION);
         model.addAttribute("comments",comments);
         questionService.incViewCount(id);
         model.addAttribute("question",questionDTO);

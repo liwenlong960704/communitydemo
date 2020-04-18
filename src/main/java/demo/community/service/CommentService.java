@@ -58,28 +58,19 @@ public class CommentService {
 
             commentMapper.insert(comment);
             commentMapper.incCommentCount(dbComment.getId());
-
         }else{
             //回复问题
             Question question = questionMapper.getById(comment.getParentId());
             if(question == null){
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
-            Comment dbComment = commentMapper.findByCommentator(question.getId(), comment.getCommentator());
-            if(dbComment != null){
-                //评论过该问题,等价于回复评论
-                comment.setType(CommentTypeEnum.COMMENT.getType());
-                commentMapper.insert(comment);
-                commentMapper.incCommentCount(dbComment.getId());
-            }else{
-                commentMapper.insert(comment);
-                questionService.incCommentCount(question.getId());
-            }
+            commentMapper.insert(comment);
+            questionService.incCommentCount(question.getId());
         }
     }
 
-    public List<CommentDTO> listByQuestionId(Long id) {
-        List<Comment> comments = commentMapper.list(id,CommentTypeEnum.QUESTION.getType());
+    public List<CommentDTO> list(Long id, CommentTypeEnum type) {
+        List<Comment> comments = commentMapper.list(id,type.getType());
         if(comments.size() == 0){
             return new ArrayList<>();
         }

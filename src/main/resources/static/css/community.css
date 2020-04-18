@@ -49,3 +49,13 @@ body{
     margin-right: 10px;
     margin-top: 5px;
 }
+
+.secondary-comment{
+    border-style:solid ;
+    padding: 10px;
+    border-color: #4f9fcf;
+}
+
+.btn-secondary{
+    margin-top:10px;
+}

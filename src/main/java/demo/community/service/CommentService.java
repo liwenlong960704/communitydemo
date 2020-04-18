@@ -65,8 +65,16 @@ public class CommentService {
             if(question == null){
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
-            commentMapper.insert(comment);
-            questionService.incCommentCount(question.getId());
+            Comment dbComment = commentMapper.findByCommentator(question.getId(), comment.getCommentator());
+            if(dbComment != null){
+                //评论过该问题,等价于回复评论
+                comment.setType(CommentTypeEnum.COMMENT.getType());
+                commentMapper.insert(comment);
+                commentMapper.incCommentCount(dbComment.getId());
+            }else{
+                commentMapper.insert(comment);
+                questionService.incCommentCount(question.getId());
+            }
         }
     }
 

@@ -12,9 +12,7 @@ import demo.community.service.CommentService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -54,8 +52,8 @@ public class CommentController {
     @ResponseBody
     @RequestMapping(value = "/comment/{id}", method = RequestMethod.GET)
     public ResultDTO subComment(@PathVariable(name = "id") Long id){
-        List<CommentDTO> replys = commentService.list(id, CommentTypeEnum.COMMENT);
-        return ResultDTO.okOf(replys);
+        List<CommentDTO> replies= commentService.list(id, CommentTypeEnum.COMMENT);
+        return ResultDTO.okOf(replies);
     }
 
 }

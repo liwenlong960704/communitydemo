@@ -8,6 +8,7 @@ import demo.community.mapper.QuestionMapper;
 import demo.community.mapper.UserMapper;
 import demo.community.model.Question;
 import demo.community.model.User;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -138,5 +139,22 @@ public class QuestionService {
 
     public void incCommentCount(Long id) {
         questionMapper.incCommentCount(id);
+    }
+
+    public List<QuestionDTO> selectRelated(QuestionDTO questionDTO) {
+        String tag = questionDTO.getTag();
+        if(StringUtils.isBlank(tag)){
+            return new ArrayList<>();
+        }
+
+        tag = tag.replace(',','|');
+        List<Question> questions = questionMapper.getRelated(questionDTO.getId(),tag);
+        List<QuestionDTO> relateQuestions = new ArrayList<>();
+        for(Question question : questions){
+            QuestionDTO newQuestionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(question,newQuestionDTO);
+            relateQuestions.add(newQuestionDTO);
+        }
+        return relateQuestions;
     }
 }

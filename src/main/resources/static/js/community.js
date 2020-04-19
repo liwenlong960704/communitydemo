@@ -1,5 +1,5 @@
 /*
-*       回复
+*       评论
 * */
 
 function post() {
@@ -52,24 +52,51 @@ function comment(parentId,content,type) {
 * */
 function collapseComment(e) {
     var id = e.getAttribute("data-id");
+    var comments = $("#comment-"+id);
     var collapse = e.getAttribute("data-collapse");
     if(collapse){
         //折叠二级评论
-        $("#comment-"+id).removeClass("in");
+        comments.removeClass("in");
         e.removeAttribute("data-collapse");
     }else{
-        //展开二级评论
-        $("#comment-"+id).addClass("in");
+        var subCommentContainer = $("#comment-"+id);
+        if(subCommentContainer.children().length == 1){
+            //二级评论加载
+            $.getJSON("/comment/"+id , function(request){
+                $.each(request.data.reverse(),function(index, comment){
+                    var mediaLeftElement = $("<div/>",{
+                        "class":"media-left"
+                    }).append($("<img/>",{
+                        "class":"media-object img-rounded",
+                        "src":comment.user.avatarUrl
+                    }));
+
+                    var mediaBodyElement = $("<div/>",{
+                        "class":"media-body"
+                    }).append($("<h5/>",{
+                        "class":"media-heading comment-heading",
+                        "html":comment.user.username
+                    })).append($("<span/>",{
+                        "html":comment.content
+                    })).append($("<span/>",{
+                        "class":"pull-right",
+                        "html":moment(comment.gmtCreate).format('YYYY-MM-DD HH:mm:ss')
+                    }));
+
+                    var mediaElement = $("<div/>",{
+                        "class":"media"
+                    }).append(mediaLeftElement).append(mediaBodyElement);
+
+                    var commentElement = $("<div/>",{
+                        "class":"col-lg-12 col-md-12 col-sm-12 col-xs-12 comments"
+                    }).append(mediaElement);
+
+                    subCommentContainer.prepend(commentElement);
+                });
+            });
+        }
+        comments.addClass("in");
         e.setAttribute("data-collapse","in");
-        // $.ajax({
-        //     type:"GET",
-        //     url:"/comment/"+id,
-        //     contentType:'application/json',
-        //     success:function(response){
-        //         // alert(JSON.stringify(response));
-        //         console.log(response);
-        //     }
-        // });
     }
 }
 

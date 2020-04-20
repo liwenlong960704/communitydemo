@@ -1,5 +1,6 @@
 package demo.community.controller;
 
+import demo.community.cache.TagCache;
 import demo.community.exception.CustomizeErrorCode;
 import demo.community.exception.CustomizeException;
 import demo.community.mapper.QuestionMapper;
@@ -26,7 +27,8 @@ public class PublishController {
 
 
     @GetMapping("/publish")
-    public String publish(){
+    public String publish(Model model){
+        model.addAttribute("tags", TagCache.get());
         return "publish";
     }
 
@@ -41,6 +43,7 @@ public class PublishController {
         model.addAttribute("title",title);
         model.addAttribute("description",description);
         model.addAttribute("tag",tag);
+        model.addAttribute("tags", TagCache.get());
 
         if(title == null || "".equals(title)){
             model.addAttribute("error","标题不能为空!");
@@ -85,6 +88,7 @@ public class PublishController {
         model.addAttribute("title",question.getTitle());
         model.addAttribute("description",question.getDescription());
         model.addAttribute("tag",question.getTag());
+        model.addAttribute("tags", TagCache.get());
 
         return "publish";
     }

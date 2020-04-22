@@ -125,4 +125,9 @@ public class NotificationService {
         return notificationDTO;
     }
 
+    public PaginationDTO readAll(Long receiver, Integer page, Integer size) {
+        notificationMapper.readAll(receiver);
+        PaginationDTO paginationDTO = list(receiver,page,size);
+        return paginationDTO;
+    }
 }

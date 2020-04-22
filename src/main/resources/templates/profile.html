@@ -17,7 +17,9 @@
             <h2>
                 <span>
                     <span class="glyphicon glyphicon-user" aria-hidden="true" th:text="${sectionName}"></span>
-                    <button type="button" class="btn btn-success btn-readall" th:if="${section.equals('replies')}">全部已读</button>
+                    <a href="/profile/readAll">
+                        <button type="button" class="btn btn-success btn-readall" th:if="${section.equals('replies')}">全部已读</button>
+                    </a>
                 </span>
             </h2>
             <hr>

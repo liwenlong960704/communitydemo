@@ -26,4 +26,7 @@ public interface NotificationMapper {
 
     @Update("update notification set status = 1 where id = #{id}")
     void read(@Param("id") Long id);
+
+    @Update("update notification set status = 1 where receiver = #{receiver}")
+    void readAll(@Param("receiver") Long receiver);
 }

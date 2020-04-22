@@ -1,5 +1,6 @@
 package demo.community.controller;
 
+import demo.community.dto.NotificationDTO;
 import demo.community.dto.PaginationDTO;
 import demo.community.model.User;
 import demo.community.service.NotificationService;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class ProfileController {
@@ -53,4 +55,25 @@ public class ProfileController {
 
         return "profile";
     }
+
+    @GetMapping("/profile/readAll")
+    public String readAll(HttpServletRequest request,
+                          @RequestParam(name = "page", defaultValue = "1") Integer page,
+                          @RequestParam(name = "size", defaultValue = "5") Integer size,
+                          Model model){
+        User user = (User)request.getSession().getAttribute("user");
+
+        if(user == null){
+            return "redirect:/";
+        }
+
+        PaginationDTO paginationDTO = notificationService.readAll(user.getId(),page,size);
+        model.addAttribute("pagination",paginationDTO);
+        model.addAttribute("section","replies");
+        model.addAttribute("sectionName","最新回复");
+
+        return "redirect:/profile/replies";
+
+    }
+
 }

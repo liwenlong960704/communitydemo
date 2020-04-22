@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class NotificationService {
@@ -100,4 +101,28 @@ public class NotificationService {
         return paginationDTO;
 
     }
+
+    public NotificationDTO read(Long id, User user){
+        Notification notification = notificationMapper.getById(id);
+        if(notification == null){
+            throw new CustomizeException(CustomizeErrorCode.NOTIFICATION_NOT_FOUND);
+        }
+        if(!Objects.equals(notification.getReceiver(),user.getId())){
+            throw new CustomizeException(CustomizeErrorCode.READ_NOTIFICATION_FAIL);
+        }
+
+        notification.setStatus(NotificationStatusEnum.READ.getStatus());
+        notificationMapper.read(notification.getId());
+
+        NotificationDTO notificationDTO = new NotificationDTO();
+        BeanUtils.copyProperties(notification,notificationDTO);
+        User notifier = userMapper.findById(notification.getNotifier());
+        notificationDTO.setNotifierName(notifier.getName());
+        Question question = questionMapper.getById(notification.getOuterId());
+        notificationDTO.setOuterTitle(question.getTitle());
+        notificationDTO.setTypeName(NotificationTypeEnum.nameOfType(notification.getType()));
+
+        return notificationDTO;
+    }
+
 }

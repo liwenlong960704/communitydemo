@@ -22,8 +22,8 @@
                     <button class="btn btn-default" type="submit">搜索</button>
                 </form>
                 <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="/profile/replies">通知 <span class="badge" th:if="${unreadCount > 0}" th:text="${unreadCount}"></span></a>
+                    <li th:if="${session.user != null}">
+                        <a href="/profile/replies">通知 <span class="badge" th:if="${session.unreadCount > 0}" th:text="${session.unreadCount}"></span></a>
                     </li>
                     <li th:if="${session.user != null}">
                         <a href="/publish">提问</a>

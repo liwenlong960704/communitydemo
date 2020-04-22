@@ -40,7 +40,7 @@ public class CommentService {
     @Transactional
     public void insert(Comment comment, User commentator) {
         if(comment.getParentId() == null || comment.getParentId() == 0){
-            throw new CustomizeException(CustomizeErrorCode.TRAGET_PARAM_NOT_FOUND);
+            throw new CustomizeException(CustomizeErrorCode.TARGET_PARAM_NOT_FOUND);
         }
 
         if(comment.getType() == null || !CommentTypeEnum.isExist(comment.getType())){

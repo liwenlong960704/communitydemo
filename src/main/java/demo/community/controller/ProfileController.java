@@ -51,9 +51,6 @@ public class ProfileController {
             model.addAttribute("pagination",paginationDTO);
         }
 
-        Long unreadCount = notificationService.unreadCount(user.getId());
-        model.addAttribute("unreadCount",unreadCount);
-
         return "profile";
     }
 }

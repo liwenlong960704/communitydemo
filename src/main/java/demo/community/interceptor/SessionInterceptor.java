@@ -2,18 +2,25 @@ package demo.community.interceptor;
 
 import demo.community.mapper.UserMapper;
 import demo.community.model.User;
+import demo.community.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @Service
 public class SessionInterceptor implements HandlerInterceptor {
-    @Autowired UserMapper userMapper;
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -24,7 +31,10 @@ public class SessionInterceptor implements HandlerInterceptor {
                     String token = cookie.getValue();
                     User user = userMapper.findByToken(token);
                     if(user != null){
-                        request.getSession().setAttribute("user",user);
+                        HttpSession session = request.getSession();
+                        session.setAttribute("user",user);
+                        Long unreadCount = notificationService.unreadCount(user.getId());
+                        session.setAttribute("unreadCount",unreadCount);
                     }
                     break;
                 }

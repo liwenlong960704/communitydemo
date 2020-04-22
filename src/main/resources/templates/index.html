@@ -22,10 +22,10 @@
 <div th:include="navigation :: nav"></div>
 <div class="container-fluid main">
     <div class="row">
-        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 " th:if="${pagination.questions != null}">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 " th:if="${pagination.data != null}">
             <h2><span class="glyphicon glyphicon-list" aria-hidden="true"></span>发现</h2>
             <hr>
-            <div class="media" th:if="${pagination.questions != null}" th:each="question : ${pagination.questions}">
+            <div class="media" th:if="${pagination.data != null}" th:each="question : ${pagination.data}">
                 <div class="media-left">
                     <a href="#">
                         <img class="media-object img-rounded" th:src="${question.user.avatarUrl}">
@@ -43,7 +43,7 @@
                 <div class="col-lg-6 visible-lg">
                 </div>
                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                    <nav aria-label="Page navigation" >
+                    <nav aria-label="Page navigation" th:if="${pagination.count > 0}">
                         <ul class="pagination" th:if="${pagination.pages != null && pagination.pages.size() != 0}">
                             <li th:class="${pagination.showFirstPage} ? '' : 'disabled' ">
                                 <a th:href="@{/(page=1)}" aria-label="Previous"  >
@@ -83,3 +83,4 @@
 </div>
 </body>
 </html>
+

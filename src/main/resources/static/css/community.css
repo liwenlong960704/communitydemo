@@ -12,6 +12,10 @@ body{
     margin-bottom: 15px;
 }
 
+.btn-readall{
+    float: right;
+}
+
 .media-object{
     width: 38px;
     height: 38px;

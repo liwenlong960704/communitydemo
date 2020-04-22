@@ -26,8 +26,9 @@ public class QuestionService {
 
 
     public PaginationDTO list(Integer page, Integer size){
-        PaginationDTO paginationDTO = new PaginationDTO();
+        PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO();
         Integer questionCount = questionMapper.countQuestions();
+        paginationDTO.setCount(questionCount);
 
         Integer pageCount;
 
@@ -44,9 +45,13 @@ public class QuestionService {
             page = pageCount;
         }
 
+        if(questionCount == 0){
+            return paginationDTO;
+        }
+
         paginationDTO.setPagination(pageCount,page);
 
-        Integer offset = Math.max(size*(page - 1),0);
+        Integer offset = (page - 1)*size;
 
 
         List<Question> questions = questionMapper.list(offset, size);
@@ -60,15 +65,14 @@ public class QuestionService {
             questionDTOList.add(questionDTO);
         }
 
-        paginationDTO.setQuestions(questionDTOList);
-
-
+        paginationDTO.setData(questionDTOList);
         return paginationDTO;
     }
 
     public PaginationDTO list(Long userId, Integer page, Integer size) {
-        PaginationDTO paginationDTO = new PaginationDTO();
+        PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO();
         Integer questionCount = questionMapper.countQuestionsByUserId(userId);
+        paginationDTO.setCount(questionCount);
 
         Integer pageCount;
 
@@ -87,7 +91,11 @@ public class QuestionService {
 
         paginationDTO.setPagination(pageCount,page);
 
-        Integer offset = Math.max(size*(page - 1),0);
+        if(questionCount == 0){
+            return paginationDTO;
+        }
+
+        Integer offset = (page - 1)*size;
 
         List<Question> questions = questionMapper.listByUserId(userId,offset,size);
         List<QuestionDTO> questionDTOList = new ArrayList<>();
@@ -101,7 +109,7 @@ public class QuestionService {
             questionDTOList.add(questionDTO);
         }
 
-        paginationDTO.setQuestions(questionDTOList);
+        paginationDTO.setData(questionDTOList);
 
         return paginationDTO;
     }

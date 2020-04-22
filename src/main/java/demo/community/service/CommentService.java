@@ -2,6 +2,7 @@ package demo.community.service;
 
 import demo.community.dto.CommentDTO;
 import demo.community.enums.CommentTypeEnum;
+import demo.community.enums.NotificationTypeEnum;
 import demo.community.exception.CustomizeErrorCode;
 import demo.community.exception.CustomizeException;
 import demo.community.mapper.CommentMapper;
@@ -33,8 +34,11 @@ public class CommentService {
     @Autowired
     private QuestionService questionService;
 
+    @Autowired
+    private NotificationService notificationService;
+
     @Transactional
-    public void insert(Comment comment) {
+    public void insert(Comment comment, User commentator) {
         if(comment.getParentId() == null || comment.getParentId() == 0){
             throw new CustomizeException(CustomizeErrorCode.TRAGET_PARAM_NOT_FOUND);
         }
@@ -58,6 +62,8 @@ public class CommentService {
 
             commentMapper.insert(comment);
             commentMapper.incCommentCount(dbComment.getId());
+            notificationService.createNotify(comment,dbComment.getCommentator(), NotificationTypeEnum.REPLY_COMMENT,question.getId());
+
         }else{
             //回复问题
             Question question = questionMapper.getById(comment.getParentId());
@@ -66,6 +72,7 @@ public class CommentService {
             }
             commentMapper.insert(comment);
             questionService.incCommentCount(question.getId());
+            notificationService.createNotify(comment,question.getCreator(),NotificationTypeEnum.REPLY_QUESTION,question.getId());
         }
     }
 

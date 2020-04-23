@@ -25,9 +25,17 @@ public class QuestionService {
     private QuestionMapper questionMapper;
 
 
-    public PaginationDTO list(Integer page, Integer size){
+    public PaginationDTO list(String search, Integer page, Integer size){
         PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO();
-        Integer questionCount = questionMapper.countQuestions();
+        Integer questionCount;
+        if(StringUtils.isBlank(search)){
+            questionCount = questionMapper.countQuestions();
+        }else{
+            search = search.trim();
+            search = search.replace(' ', '|');
+            questionCount = questionMapper.countQuestionsByKeyword(search);
+        }
+
         paginationDTO.setCount(questionCount);
 
         Integer pageCount;
@@ -53,9 +61,14 @@ public class QuestionService {
 
         Integer offset = (page - 1)*size;
 
-
-        List<Question> questions = questionMapper.list(offset, size);
+        List<Question> questions = new ArrayList<>();
         List<QuestionDTO> questionDTOList = new ArrayList<>();
+
+        if(StringUtils.isBlank(search)){
+            questions = questionMapper.list(offset, size);
+        }else{
+            questions = questionMapper.listBySearch(search,offset,size);
+        }
 
         for(Question question : questions){
             User user = userMapper.findById(question.getCreator());

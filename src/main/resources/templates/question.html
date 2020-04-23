@@ -6,10 +6,16 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="/css/community.css">
+    <link rel="stylesheet" href="/css/editormd.preview.min.css">
     <script src="/js/jquery-3.5.0.min.js"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
     <script src="/js/community.js"></script>
     <script src="/js/moment.js"></script>
+    <script src="/js/lib/marked.min.js"></script>
+    <script src="/js/lib/prettify.min.js"></script>
+    <script src="/js/editormd.min.js"></script>
+
+
 </head>
 <body>
 <div th:include="navigation :: nav"></div>
@@ -25,9 +31,18 @@
             </span>
             <hr>
             <!--内容-->
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <h4 th:text="${question.description}"></h4>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="question-view">
+                <textarea th:text="${question.description}" style="display:none;"></textarea>
             </div>
+            <script type="text/javascript">
+                $(function() {
+                    editormd.markdownToHTML("question-view", {
+                        // markdown : "[TOC]\n### Hello world!\n## Heading 2", // Also, you can dynamic set Markdown text
+                        // htmlDecode : true,  // Enable / disable HTML tag encode.
+                        // htmlDecode : "style,script,iframe",  // Note: If enabled, you should filter some dangerous HTML tags for website security.
+                    });
+                });
+            </script>
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <!--标签-->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -59,7 +74,7 @@
                             </a>
                         </div>
                         <div class="media-body" th:id="${'comment-body-'+comment.id}">
-                            <a href="#"><h5 class="media-heading comment-heading" th:text="${comment.user.name}"></h5></a>
+                            <h5 class="media-heading comment-heading" th:text="${comment.user.name}"></h5>
                             <span th:text="${comment.content}"></span><br>
                             <span class="glyphicon glyphicon-thumbs-up comment-icon" aria-hidden="true" th:text="${comment.likeCount}"><button></button></span>
                             <span class="glyphicon glyphicon-comment comment-icon" aria-hidden="true" th:data-id="${comment.id}"

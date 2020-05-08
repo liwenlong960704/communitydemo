@@ -3,7 +3,6 @@ package demo.community.controller;
 import demo.community.dto.CommentDTO;
 import demo.community.dto.QuestionDTO;
 import demo.community.enums.CommentTypeEnum;
-import demo.community.mapper.QuestionMapper;
 import demo.community.service.CommentService;
 import demo.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;

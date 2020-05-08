@@ -13,7 +13,6 @@ import demo.community.model.Comment;
 import demo.community.model.Notification;
 import demo.community.model.Question;
 import demo.community.model.User;
-import javafx.scene.control.Pagination;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -26,7 +26,7 @@ public class UserService {
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
-            user.setAvatarUrl(githubUser.getAvatar_url());
+            user.setAvatarUrl(githubUser.getAvatarUrl());
             user.setBio(githubUser.getBio());
             userMapper.insert(user);
 
@@ -34,7 +34,7 @@ public class UserService {
             user.setToken(token);
             user.setName(githubUser.getName());
             user.setBio(githubUser.getBio());
-            user.setAvatarUrl(githubUser.getAvatar_url());
+            user.setAvatarUrl(githubUser.getAvatarUrl());
             user.setGmtModified(System.currentTimeMillis());
             userMapper.update(user);
         }

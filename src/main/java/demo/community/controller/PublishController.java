@@ -4,17 +4,18 @@ import demo.community.cache.TagCache;
 import demo.community.exception.CustomizeErrorCode;
 import demo.community.exception.CustomizeException;
 import demo.community.mapper.QuestionMapper;
-import demo.community.mapper.UserMapper;
 import demo.community.model.Question;
 import demo.community.model.User;
 import demo.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.bind.ValidationEvent;
 
 @Controller
 public class PublishController {

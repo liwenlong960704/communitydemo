@@ -1,7 +1,5 @@
 package demo.community.enums;
 
-import demo.community.model.Notification;
-
 public enum NotificationTypeEnum {
     REPLY_QUESTION(1,"回复了问题"),
     REPLY_COMMENT(2,"回复了评论");

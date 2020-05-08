@@ -1,6 +1,5 @@
 package demo.community.controller;
 
-import demo.community.dto.NotificationDTO;
 import demo.community.dto.PaginationDTO;
 import demo.community.model.User;
 import demo.community.service.NotificationService;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @Controller
 public class ProfileController {
